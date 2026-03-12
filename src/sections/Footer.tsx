@@ -205,7 +205,7 @@ const Footer = () => {
 
             {/* Right Column - Contact Grid */}
             <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Contact */}
                 {footerConfig.contact.length > 0 && (
                   <div>

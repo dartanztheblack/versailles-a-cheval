@@ -87,10 +87,10 @@ const BreathSection = () => {
       ref={sectionRef}
       className="relative w-full bg-kaleo-sand py-24 md:py-32 overflow-hidden"
     >
-      {/* Scalable Image Container */}
+      {/* Scalable Image Container - Full Width */}
       <div
         ref={imageContainerRef}
-        className="relative w-full max-w-6xl mx-auto px-6 md:px-8 aspect-video overflow-hidden"
+        className="relative w-full aspect-video overflow-hidden"
         style={{ willChange: 'transform, border-radius' }}
       >
         <img

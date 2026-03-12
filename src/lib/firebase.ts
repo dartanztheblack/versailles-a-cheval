@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendEmailVerification,
   type User,
 } from "firebase/auth";
 import { firebaseConfig } from "@/config";
@@ -22,6 +23,8 @@ export const registerUser = async (
       email,
       password
     );
+    // Envoyer l'email de vérification
+    await sendEmailVerification(userCredential.user);
     return userCredential.user;
   } catch (error) {
     console.error("Error registering user:", error);

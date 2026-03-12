@@ -95,12 +95,12 @@ const CardStack = () => {
       className="relative w-full bg-kaleo-sand"
       style={{ minHeight: `${(cards.length + 1) * 100}vh` }}
     >
-      {/* Section Header */}
-      <div className="absolute top-0 left-0 right-0 py-12 md:py-16 text-center z-10">
-        <h2 className="font-display text-headline text-kaleo-earth">
+      {/* Section Header - Higher up */}
+      <div className="absolute top-8 left-0 right-0 py-6 md:py-8 text-center z-10 bg-kaleo-sand/80 backdrop-blur-sm">
+        <h2 className="font-display text-3xl md:text-4xl text-kaleo-earth">
           {isEnglish ? cardStackConfig.sectionTitleEn : cardStackConfig.sectionTitle}
         </h2>
-        <p className="font-body text-sm text-kaleo-terracotta uppercase tracking-[0.2em] mt-4">
+        <p className="font-body text-sm text-kaleo-terracotta uppercase tracking-[0.2em] mt-2">
           {isEnglish ? cardStackConfig.sectionSubtitleEn : cardStackConfig.sectionSubtitle}
         </p>
       </div>

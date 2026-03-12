@@ -12,6 +12,7 @@ export function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   // Login form
   const [loginEmail, setLoginEmail] = useState("");
@@ -65,7 +66,13 @@ export function Login() {
     const user = await registerUser(registerEmail, registerPassword);
 
     if (user) {
-      navigate("/");
+      setSuccessMessage("Compte créé avec succès ! Un email de vérification vous a été envoyé. Veuillez vérifier votre boîte de réception avant de vous connecter.");
+      // Reset form
+      setRegisterEmail("");
+      setRegisterPassword("");
+      setConfirmPassword("");
+      setFirstName("");
+      setLastName("");
     } else {
       setError("Erreur lors de l'inscription. Cet email est peut-être déjà utilisé.");
     }
@@ -206,6 +213,12 @@ export function Login() {
                   {error && (
                     <div className="p-3 bg-red-50 text-red-600 rounded-lg text-sm">
                       {error}
+                    </div>
+                  )}
+
+                  {successMessage && (
+                    <div className="p-3 bg-green-50 text-green-600 rounded-lg text-sm">
+                      {successMessage}
                     </div>
                   )}
 

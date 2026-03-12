@@ -85,8 +85,8 @@ export const zigZagGridConfig: ZigZagGridConfig = {
       title: "Visite Privée du Château",
       subtitle: "1H30 • GUIDE EXPERT",
       description: "Découvrez les trésors du Château de Versailles lors d'une visite privée de 1h30. Votre guide expert vous emmènera à travers les points forts du palais, y compris la célèbre Galerie des Glaces, en partageant des histoires fascinantes sur la vie royale et l'architecture. Un site classé au patrimoine mondial de l'UNESCO.",
-      image: "/e3191d77048ce717ddfb0a2470c3bbac5ac55ec0df9c584b61537c991c8adfef (1).jpeg",
-      imageAlt: "Galerie des Glaces au Château de Versailles",
+      image: "/grid-gardens.jpg",
+      imageAlt: "Jardins du Château de Versailles",
       reverse: false,
     },
     {
