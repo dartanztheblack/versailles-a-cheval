@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { MessageCircle, X, Send, User, Bot, Phone, Mail } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Message {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, Calendar, Share2, Facebook, Twitter, Linkedin } from "lucide-react";
+import { ChevronLeft, Calendar, Facebook, Twitter, Linkedin } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -690,7 +690,7 @@ export function BlogPostPage() {
               {isEnglish ? "Blog" : "Blog"}
             </Link>
             <Link 
-              href={`/blog?lang=${isEnglish ? 'fr' : 'en'}`}
+              to={`/blog?lang=${isEnglish ? 'fr' : 'en'}`}
               className="text-sm text-[#8C7B6B] hover:text-[#1C1C1C]"
             >
               {isEnglish ? 'FR' : 'EN'}
