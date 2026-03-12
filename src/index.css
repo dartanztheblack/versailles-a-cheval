@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* KALEO Color Palette - Organic Luxury */
+    --background: 36 24% 90%; /* #EAE4D9 - Warm Sand/Bone */
+    --foreground: 0 0% 16%; /* #2A2A2A - Deep Earth Grey */
+    --card: 36 24% 90%;
+    --card-foreground: 0 0% 16%;
+    --popover: 36 24% 90%;
+    --popover-foreground: 0 0% 16%;
+    --primary: 0 0% 16%;
+    --primary-foreground: 36 16% 95%; /* #F3F0EB - Off-white */
+    --secondary: 25 14% 49%; /* #8C7B6B - Muted Terracotta */
+    --secondary-foreground: 36 16% 95%;
+    --muted: 36 14% 85%;
+    --muted-foreground: 0 0% 35%;
+    --accent: 25 14% 49%;
+    --accent-foreground: 36 16% 95%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 36 16% 95%;
+    --border: 36 14% 80%;
+    --input: 36 14% 80%;
+    --ring: 25 14% 49%;
+    --radius: 0.625rem;
+    
+    /* Custom KALEO Colors */
+    --kaleo-sand: #EAE4D9;
+    --kaleo-charcoal: #1C1C1C;
+    --kaleo-earth: #2A2A2A;
+    --kaleo-cream: #F3F0EB;
+    --kaleo-terracotta: #8C7B6B;
+  }
+
+  .dark {
+    --background: 0 0% 11%; /* #1C1C1C - Soft Charcoal */
+    --foreground: 36 16% 95%;
+    --card: 0 0% 11%;
+    --card-foreground: 36 16% 95%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 36 16% 95%;
+    --primary: 36 16% 95%;
+    --primary-foreground: 0 0% 11%;
+    --secondary: 25 14% 49%;
+    --secondary-foreground: 36 16% 95%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 36 14% 70%;
+    --accent: 25 14% 49%;
+    --accent-foreground: 36 16% 95%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 36 16% 95%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 25 14% 49%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+  }
+  
+  ::selection {
+    background-color: rgba(140, 123, 107, 0.3);
+    color: #2A2A2A;
+  }
+}
+
+@layer utilities {
+  /* Typography Utilities */
+  .font-display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Text sizes for editorial feel */
+  .text-display {
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-headline {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-subheadline {
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    line-height: 1.3;
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Ken Burns effect for images */
+  .ken-burns {
+    animation: kenBurns 20s ease-in-out infinite alternate;
+  }
+  
+  @keyframes kenBurns {
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.1) translate(-2%, -1%);
+    }
+  }
+  
+  /* Fade in up animation */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Spinning star animation */
+  .spin-slow {
+    animation: spinSlow 20s linear infinite;
+  }
+  
+  @keyframes spinSlow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Parallax layer styling */
+  .parallax-layer {
+    will-change: transform;
+  }
+  
+  /* Card hover effect */
+  .card-hover {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Magnetic button effect placeholder */
+  .magnetic-btn {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Image reveal mask */
+  .image-reveal {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .image-reveal.revealed {
+    clip-path: inset(0 0 0 0);
+  }
+  
+  /* Gradient mask for text over images */
+  .gradient-mask-bottom {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
+
+/* Lenis smooth scroll styles */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
