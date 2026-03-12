@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { stripePromise } from "@/lib/stripe";
-import { CheckoutForm } from "@/components/stripe/CheckoutForm";
+import { initiatePayment } from "@/lib/stripe";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+import { fr, enUS } from "date-fns/locale";
 import { Calendar as CalendarIcon, ChevronLeft, Loader2, Check } from "lucide-react";
 import { cardStackConfig, addOnOptions } from "@/config";
 import { cn } from "@/lib/utils";
@@ -23,17 +21,19 @@ export function Reservation() {
   const tourId = searchParams.get("tour");
   const lang = searchParams.get("lang") || "fr";
   const isEnglish = lang === "en";
+  const success = searchParams.get("success");
+  const canceled = searchParams.get("canceled");
   
   const tour = cardStackConfig.cards.find((c) => c.id === Number(tourId));
   
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(success ? 3 : 1);
   const [date, setDate] = useState<Date>();
   const [participants, setParticipants] = useState(2);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [reservationComplete, setReservationComplete] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const dateLocale = isEnglish ? enUS : fr;
 
   const baseAmount = (tour?.basePrice || 490) * participants;
   const addOnsAmount = selectedAddOns.reduce((total, addOnId) => {
@@ -51,45 +51,30 @@ export function Reservation() {
   };
 
   const handleProceedToPayment = async () => {
-    if (!date) return;
+    if (!date || !tour) return;
     
     setIsLoading(true);
     setError(null);
     
     try {
-      const response = await fetch("/api/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          amount: totalAmount * 100, 
-          currency: "eur",
-          metadata: {
-            tourId: tour?.id,
-            date: date.toISOString(),
-            participants,
-            addOns: selectedAddOns.join(","),
-          }
-        }),
+      const result = await initiatePayment({
+        amount: totalAmount,
+        tourName: isEnglish ? tour.titleEn : tour.title,
+        date: format(date, "PPP", { locale: dateLocale }),
+        participants,
+        lang,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setClientSecret(data.clientSecret);
-        setStep(2);
-      } else {
-        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
-        setError(errorData.error || "Payment initialization failed");
+      if (result.success) {
+        setStep(3); // Affiche la confirmation avec instructions
       }
-    } catch (error) {
-      console.error("Error creating payment intent:", error);
-      setError(isEnglish ? "Unable to initialize payment. Please try again." : "Impossible d'initialiser le paiement. Veuillez réessayer.");
+    } catch (err) {
+      console.error("Payment error:", err);
+      setError(isEnglish 
+        ? "Unable to process payment. Please try again." 
+        : "Impossible de traiter le paiement. Veuillez réessayer."
+      );
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  };
-
-  const handlePaymentSuccess = () => {
-    setReservationComplete(true);
-    setStep(3);
   };
 
   const t = {
@@ -106,14 +91,18 @@ export function Reservation() {
     total: isEnglish ? "Total" : "Total",
     proceedPayment: isEnglish ? "Proceed to payment" : "Procéder au paiement",
     loading: isEnglish ? "Loading..." : "Chargement...",
-    pay: isEnglish ? "Pay" : "Payer",
-    thankYou: isEnglish ? "Thank you for your booking. A confirmation email has been sent to you." : "Merci pour votre réservation. Un email de confirmation vous a été envoyé.",
+    thankYou: isEnglish 
+      ? "Thank you for your booking! A confirmation email will be sent to you shortly." 
+      : "Merci pour votre réservation ! Un email de confirmation vous sera envoyé prochainement.",
     tour: isEnglish ? "Tour" : "Tour",
     date: isEnglish ? "Date" : "Date",
     travelers: isEnglish ? "Travelers" : "Voyageurs",
     options: isEnglish ? "Options" : "Options",
     totalPaid: isEnglish ? "Total paid" : "Total payé",
     backHome: isEnglish ? "Back to home" : "Retour à l'accueil",
+    paymentCanceled: isEnglish 
+      ? "Payment was canceled. You can try again." 
+      : "Le paiement a été annulé. Vous pouvez réessayer.",
   };
 
   if (!tour) {
@@ -178,6 +167,13 @@ export function Reservation() {
           </div>
         </div>
 
+        {/* Payment Canceled Message */}
+        {canceled && step === 1 && (
+          <div className="mb-6 p-4 bg-amber-50 text-amber-600 rounded-lg text-sm">
+            {t.paymentCanceled}
+          </div>
+        )}
+
         {/* Step 1: Date, Participants & Options */}
         {step === 1 && (
           <div className="bg-white rounded-lg p-8 shadow-sm">
@@ -205,7 +201,7 @@ export function Reservation() {
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {date ? (
-                        format(date, "PPP", { locale: fr })
+                        format(date, "PPP", { locale: dateLocale })
                       ) : (
                         <span>{t.selectDatePlaceholder}</span>
                       )}
@@ -331,43 +327,8 @@ export function Reservation() {
           </div>
         )}
 
-        {/* Step 2: Payment */}
-        {step === 2 && clientSecret && (
-          <div className="bg-white rounded-lg p-8 shadow-sm">
-            <h1 className="text-2xl font-serif text-[#1C1C1C] mb-6">
-              {t.step2Title}
-            </h1>
-            <div className="bg-[#F3F0EB] p-4 rounded-lg mb-6">
-              <p className="text-[#8C7B6B] text-sm">{t.total}</p>
-              <p className="text-2xl font-medium text-[#1C1C1C]">{totalAmount}€</p>
-            </div>
-            <Elements
-              stripe={stripePromise}
-              options={{
-                clientSecret,
-                appearance: {
-                  theme: "stripe",
-                  variables: {
-                    colorPrimary: "#8C7B6B",
-                    colorBackground: "#ffffff",
-                    colorText: "#1C1C1C",
-                    colorDanger: "#ef4444",
-                    borderRadius: "8px",
-                  },
-                },
-              }}
-            >
-              <CheckoutForm
-                amount={totalAmount}
-                onSuccess={handlePaymentSuccess}
-                onCancel={() => setStep(1)}
-              />
-            </Elements>
-          </div>
-        )}
-
         {/* Step 3: Confirmation */}
-        {step === 3 && reservationComplete && (
+        {step === 3 && (
           <div className="bg-white rounded-lg p-8 shadow-sm text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Check className="w-8 h-8 text-green-600" />
@@ -383,23 +344,10 @@ export function Reservation() {
               <p className="font-medium mb-3">{isEnglish ? tour.titleEn : tour.title}</p>
               <p className="text-sm text-[#8C7B6B] mb-1">{t.date}</p>
               <p className="font-medium mb-3">
-                {date && format(date, "PPP", { locale: fr })}
+                {searchParams.get("date")}
               </p>
               <p className="text-sm text-[#8C7B6B] mb-1">{t.travelers}</p>
-              <p className="font-medium mb-3">{participants}</p>
-              {selectedAddOns.length > 0 && (
-                <>
-                  <p className="text-sm text-[#8C7B6B] mb-1">{t.options}</p>
-                  <p className="font-medium mb-3">
-                    {selectedAddOns.map(id => {
-                      const addOn = addOnOptions.find(a => a.id === id);
-                      return isEnglish ? addOn?.nameEn : addOn?.name;
-                    }).join(", ")}
-                  </p>
-                </>
-              )}
-              <p className="text-sm text-[#8C7B6B] mb-1">{t.totalPaid}</p>
-              <p className="font-medium text-[#8C7B6B]">{totalAmount}€</p>
+              <p className="font-medium mb-3">{searchParams.get("participants")}</p>
             </div>
             <Button onClick={() => window.location.href = `/?lang=${lang}`}>
               {t.backHome}
