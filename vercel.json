@@ -1,22 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "/api/**/*.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/create-payment-intent.js": {
+      "maxDuration": 10
     }
-  ],
+  },
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/create-payment-intent",
+      "dest": "/api/create-payment-intent.js"
     },
     {
       "src": "/[^.]+",
