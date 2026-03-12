@@ -1,0 +1,21 @@
+{
+  "rewrites": [
+    { "source": "/blog/:slug", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/reservation", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
