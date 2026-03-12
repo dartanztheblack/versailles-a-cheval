@@ -123,7 +123,7 @@ const BreathSection = () => {
       </div>
 
       {/* Description Text */}
-      <div className="max-w-3xl mx-auto px-6 md:px-8 mt-16 text-center">
+      <div className="max-w-3xl mx-auto px-6 md:px-8 pt-16 text-center">
         <p
           ref={descriptionRef}
           className="font-body text-base md:text-lg text-kaleo-earth/70 leading-relaxed"

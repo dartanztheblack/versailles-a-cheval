@@ -318,20 +318,20 @@ const Footer = () => {
           >
             <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
               <svg
-                viewBox="0 0 400 80"
-                className="w-full max-w-4xl mx-auto h-auto opacity-20"
+                viewBox="0 0 800 100"
+                className="w-full max-w-5xl mx-auto h-auto opacity-20"
                 fill="currentColor"
               >
                 <text
                   x="50%"
-                  y="50%"
+                  y="60%"
                   dominantBaseline="middle"
                   textAnchor="middle"
                   className="font-display"
                   style={{
-                    fontSize: '72px',
+                    fontSize: '64px',
                     fontFamily: 'Cormorant Garamond, serif',
-                    letterSpacing: '0.05em'
+                    letterSpacing: '0.1em'
                   }}
                 >
                   {footerConfig.logoText}

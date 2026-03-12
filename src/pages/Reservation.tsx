@@ -33,6 +33,7 @@ export function Reservation() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [reservationComplete, setReservationComplete] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const baseAmount = (tour?.basePrice || 490) * participants;
   const addOnsAmount = selectedAddOns.reduce((total, addOnId) => {
@@ -53,6 +54,8 @@ export function Reservation() {
     if (!date) return;
     
     setIsLoading(true);
+    setError(null);
+    
     try {
       const response = await fetch("/api/create-payment-intent", {
         method: "POST",
@@ -73,9 +76,13 @@ export function Reservation() {
         const data = await response.json();
         setClientSecret(data.clientSecret);
         setStep(2);
+      } else {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        setError(errorData.error || "Payment initialization failed");
       }
     } catch (error) {
       console.error("Error creating payment intent:", error);
+      setError(isEnglish ? "Unable to initialize payment. Please try again." : "Impossible d'initialiser le paiement. Veuillez réessayer.");
     }
     setIsLoading(false);
   };
@@ -298,6 +305,13 @@ export function Reservation() {
                   <span className="text-[#8C7B6B]">{totalAmount}€</span>
                 </div>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
 
               <Button
                 onClick={handleProceedToPayment}
