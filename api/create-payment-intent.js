@@ -1,19 +1,24 @@
-const Stripe = require('stripe');
+export default async function handler(request, response) {
+  // Enable CORS
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-12-18.acacia',
-});
+  if (request.method === 'OPTIONS') {
+    return response.status(200).end();
+  }
 
-module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (request.method !== 'POST') {
+    return response.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { amount, currency = 'eur', metadata } = req.body;
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || '');
+    
+    const { amount, currency = 'eur', metadata } = request.body;
 
     if (!amount || amount <= 0) {
-      return res.status(400).json({ error: 'Invalid amount' });
+      return response.status(400).json({ error: 'Invalid amount' });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -25,13 +30,13 @@ module.exports = async function handler(req, res) {
       },
     });
 
-    return res.status(200).json({
+    return response.status(200).json({
       clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
-    console.error('Error creating payment intent:', error);
-    return res.status(500).json({ 
-      error: error instanceof Error ? error.message : 'Internal server error' 
+    console.error('Stripe error:', error);
+    return response.status(500).json({ 
+      error: error.message || 'Internal server error' 
     });
   }
-};
+}
