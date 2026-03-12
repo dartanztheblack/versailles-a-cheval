@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { initiatePayment } from "@/lib/stripe";
+import { redirectToCheckout } from "@/lib/stripe";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -26,7 +26,7 @@ export function Reservation() {
   
   const tour = cardStackConfig.cards.find((c) => c.id === Number(tourId));
   
-  const [step, setStep] = useState(success ? 3 : 1);
+  const [step] = useState(success ? 3 : 1);
   const [date, setDate] = useState<Date>();
   const [participants, setParticipants] = useState(2);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
@@ -57,21 +57,19 @@ export function Reservation() {
     setError(null);
     
     try {
-      const result = await initiatePayment({
+      await redirectToCheckout({
         amount: totalAmount,
         tourName: isEnglish ? tour.titleEn : tour.title,
         date: format(date, "PPP", { locale: dateLocale }),
         participants,
         lang,
       });
-      if (result.success) {
-        setStep(3); // Affiche la confirmation avec instructions
-      }
+      // La redirection se fait ici, on n'atteint pas la suite
     } catch (err) {
-      console.error("Payment error:", err);
+      console.error("Checkout error:", err);
       setError(isEnglish 
-        ? "Unable to process payment. Please try again." 
-        : "Impossible de traiter le paiement. Veuillez réessayer."
+        ? "Unable to redirect to payment. Please try again." 
+        : "Impossible de rediriger vers le paiement. Veuillez réessayer."
       );
       setIsLoading(false);
     }
