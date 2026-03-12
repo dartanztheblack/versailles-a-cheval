@@ -16,6 +16,7 @@ import Footer from './sections/Footer';
 // Pages
 import { Reservation } from './pages/Reservation';
 import { Blog } from './pages/Blog';
+import { BlogPostPage } from './pages/BlogPost';
 import { Login } from './pages/Login';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -84,6 +85,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<Reservation />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/login" element={<Login />} />
         <Route 
           path="/admin" 

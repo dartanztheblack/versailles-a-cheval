@@ -205,7 +205,7 @@ const Footer = () => {
 
             {/* Right Column - Contact Grid */}
             <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Contact */}
                 {footerConfig.contact.length > 0 && (
                   <div>
@@ -271,6 +271,39 @@ const Footer = () => {
                     </div>
                   </div>
                 )}
+
+                {/* Quick Links */}
+                <div>
+                  <h4 className="font-body text-xs uppercase tracking-[0.15em] text-kaleo-terracotta mb-4">
+                    {isEnglish ? 'Links' : 'Liens'}
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href={`/blog?lang=${lang}`}
+                        className="font-body text-sm text-kaleo-cream/70 hover:text-kaleo-cream transition-colors"
+                      >
+                        {isEnglish ? 'Our Blog' : 'Notre Blog'}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href={`/login?lang=${lang}`}
+                        className="font-body text-sm text-kaleo-cream/70 hover:text-kaleo-cream transition-colors"
+                      >
+                        {isEnglish ? 'My Account' : 'Mon Compte'}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href={`/reservation?lang=${lang}`}
+                        className="font-body text-sm text-kaleo-cream/70 hover:text-kaleo-cream transition-colors"
+                      >
+                        {isEnglish ? 'Book Now' : 'Réserver'}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

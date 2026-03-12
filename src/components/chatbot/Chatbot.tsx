@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { MessageCircle, X, Send, User, Bot } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, Phone, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Message {
@@ -23,16 +23,17 @@ export function Chatbot() {
   const isEnglish = lang === "en";
 
   const t = {
-    title: isEnglish ? "Versailles Assistant" : "Assistant Versailles",
+    title: isEnglish ? "Versailles Guide" : "Guide Versailles",
     placeholder: isEnglish ? "Type your message..." : "Écrivez votre message...",
     welcome: isEnglish 
-      ? "Hello! I'm here to help you discover our royal experience. How can I assist you today?"
-      : "Bonjour ! Je suis là pour vous aider à découvrir notre expérience royale. Comment puis-je vous aider ?",
+      ? "Hello! I'm your virtual guide to help you discover our royal experience. How can I assist you today?"
+      : "Bonjour ! Je suis votre guide virtuel pour vous aider à découvrir notre expérience royale. Comment puis-je vous aider ?",
     options: {
       price: isEnglish ? "💰 Prices and packages" : "💰 Tarifs et formules",
       book: isEnglish ? "📅 Book now" : "📅 Réserver maintenant",
       info: isEnglish ? "ℹ️ What's included?" : "ℹ️ Que comprend l'offre ?",
       contact: isEnglish ? "📞 Contact us" : "📞 Nous contacter",
+      human: isEnglish ? "👨‍💼 Talk to a person" : "👨‍💼 Parler à une personne",
     },
     responses: {
       price: isEnglish
@@ -44,6 +45,9 @@ export function Chatbot() {
       contact: isEnglish
         ? "You can reach us at: 📞 +33 6 25 75 79 95 or 📧 parisdreamhunt@gmail.com. We're available every day from 9am to 7pm!"
         : "Vous pouvez nous joindre au : 📞 +33 6 25 75 79 95 ou 📧 parisdreamhunt@gmail.com. Nous sommes disponibles tous les jours de 9h à 19h !",
+      human: isEnglish
+        ? "I understand you want to speak with a real person. Here's how to reach us:\n\n📞 Phone: +33 6 25 75 79 95\n📧 Email: parisdreamhunt@gmail.com\n\nWe're available Monday to Saturday, 9am to 7pm. We'll respond within 2 hours!"
+        : "Je comprends que vous souhaitez parler à une vraie personne. Voici comment nous joindre :\n\n📞 Téléphone : +33 6 25 75 79 95\n📧 Email : parisdreamhunt@gmail.com\n\nNous sommes disponibles du lundi au samedi, de 9h à 19h. Nous répondons sous 2 heures !",
     },
   };
 
@@ -67,6 +71,7 @@ export function Chatbot() {
             { label: t.options.info, value: "info" },
             { label: t.options.book, value: "book" },
             { label: t.options.contact, value: "contact" },
+            { label: t.options.human, value: "human" },
           ],
         },
       ]);
@@ -113,6 +118,14 @@ export function Chatbot() {
           responseOptions = [
             { label: t.options.price, value: "price" },
             { label: t.options.book, value: "book" },
+            { label: t.options.human, value: "human" },
+          ];
+          break;
+        case "human":
+          responseText = t.responses.human;
+          responseOptions = [
+            { label: t.options.price, value: "price" },
+            { label: t.options.book, value: "book" },
           ];
           break;
         default:
@@ -146,20 +159,22 @@ export function Chatbot() {
       const lowerInput = inputValue.toLowerCase();
       let responseText = "";
 
-      if (lowerInput.includes("prix") || lowerInput.includes("tarif") || lowerInput.includes("price") || lowerInput.includes("cost")) {
+      if (lowerInput.includes("prix") || lowerInput.includes("tarif") || lowerInput.includes("price") || lowerInput.includes("cost") || lowerInput.includes("combien")) {
         responseText = t.responses.price;
-      } else if (lowerInput.includes("réserv") || lowerInput.includes("book")) {
+      } else if (lowerInput.includes("réserv") || lowerInput.includes("book") || lowerInput.includes("réserver")) {
         navigate(`/reservation?tour=1&lang=${lang}`);
         setIsOpen(false);
         return;
-      } else if (lowerInput.includes("inclus") || lowerInput.includes("include") || lowerInput.includes("comprend")) {
+      } else if (lowerInput.includes("inclus") || lowerInput.includes("include") || lowerInput.includes("comprend") || lowerInput.includes("qu'est ce")) {
         responseText = t.responses.info;
-      } else if (lowerInput.includes("contact") || lowerInput.includes("téléphone") || lowerInput.includes("phone")) {
+      } else if (lowerInput.includes("contact") || lowerInput.includes("téléphone") || lowerInput.includes("phone") || lowerInput.includes("email")) {
         responseText = t.responses.contact;
+      } else if (lowerInput.includes("humain") || lowerInput.includes("personne") || lowerInput.includes("human") || lowerInput.includes("agent") || lowerInput.includes("parler") || lowerInput.includes("discuter")) {
+        responseText = t.responses.human;
       } else {
         responseText = isEnglish
-          ? "I'd be happy to help! Here are some options:"
-          : "Je serai ravi de vous aider ! Voici quelques options :";
+          ? "I'd be happy to help! Here are some options or type your question:"
+          : "Je serai ravi de vous aider ! Voici quelques options ou tapez votre question :";
       }
 
       setMessages((prev) => [
@@ -173,6 +188,7 @@ export function Chatbot() {
             { label: t.options.info, value: "info" },
             { label: t.options.book, value: "book" },
             { label: t.options.contact, value: "contact" },
+            { label: t.options.human, value: "human" },
           ],
         },
       ]);

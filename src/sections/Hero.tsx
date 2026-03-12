@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { heroConfig, heroConfigEn } from '../config';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, User, BookOpen } from 'lucide-react';
+import { auth } from '@/lib/firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,12 +14,20 @@ const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Get language from URL
   const urlParams = new URLSearchParams(window.location.search);
   const lang = urlParams.get('lang') || 'fr';
   const isEnglish = lang === 'en';
   const config = isEnglish ? heroConfigEn : heroConfig;
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -101,10 +111,32 @@ const Hero = () => {
       </div>
 
       {/* Language Toggle */}
-      <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+      <div className="absolute top-6 right-6 z-20 flex items-center gap-4">
+        <a
+          href={`/blog?lang=${lang}`}
+          className="flex items-center gap-1 px-3 py-1 text-sm text-kaleo-cream/80 hover:text-kaleo-cream transition-colors"
+        >
+          <BookOpen className="h-4 w-4" />
+          <span className="hidden sm:inline">{isEnglish ? 'Blog' : 'Blog'}</span>
+        </a>
+        <a
+          href={user ? (user.email === 'parisdreamhunt@gmail.com' ? '/admin' : '/') : '/login'}
+          className="flex items-center gap-1 px-3 py-1 text-sm text-kaleo-cream/80 hover:text-kaleo-cream transition-colors"
+        >
+          <User className="h-4 w-4" />
+          <span className="hidden sm:inline">
+            {user 
+              ? (user.email === 'parisdreamhunt@gmail.com' 
+                ? (isEnglish ? 'Admin' : 'Admin') 
+                : (isEnglish ? 'My Account' : 'Mon Compte'))
+              : (isEnglish ? 'Sign In' : 'Connexion')
+            }
+          </span>
+        </a>
+        <span className="text-kaleo-cream/30">|</span>
         <a
           href="?lang=fr"
-          className={`px-3 py-1 text-sm font-body transition-colors ${
+          className={`px-2 py-1 text-sm font-body transition-colors ${
             !isEnglish 
               ? 'text-kaleo-cream border-b-2 border-kaleo-terracotta' 
               : 'text-kaleo-cream/60 hover:text-kaleo-cream'
@@ -112,10 +144,9 @@ const Hero = () => {
         >
           FR
         </a>
-        <span className="text-kaleo-cream/30">|</span>
         <a
           href="?lang=en"
-          className={`px-3 py-1 text-sm font-body transition-colors ${
+          className={`px-2 py-1 text-sm font-body transition-colors ${
             isEnglish 
               ? 'text-kaleo-cream border-b-2 border-kaleo-terracotta' 
               : 'text-kaleo-cream/60 hover:text-kaleo-cream'
