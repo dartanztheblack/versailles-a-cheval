@@ -1,21 +1,22 @@
 {
-  "rewrites": [
-    { "source": "/blog/:slug", "destination": "/index.html" },
-    { "source": "/blog", "destination": "/index.html" },
-    { "source": "/reservation", "destination": "/index.html" },
-    { "source": "/login", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/blog/(.*)", "dest": "/index.html" },
+    { "src": "/blog", "dest": "/index.html" },
+    { "src": "/reservation", "dest": "/index.html" },
+    { "src": "/login", "dest": "/index.html" },
+    { "src": "/admin/(.*)", "dest": "/index.html" },
+    { "src": "/admin", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
