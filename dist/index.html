@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Versailles Horse Tours</title>
     <script>
-      // GitHub Pages SPA redirect
       (function() {
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
         if (redirect && redirect != location.href) {
-          history.replaceState(null, null, redirect.replace(location.origin + '/versailles-a-cheval', ''));
+          history.replaceState(null, null, redirect);
         }
       })();
     </script>
-    <script type="module" crossorigin src="./assets/index-BPmKn5n0.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Cj4-lDNE.css">
+    <script type="module" crossorigin src="/versailles-a-cheval/assets/index-BPmKn5n0.js"></script>
+    <link rel="stylesheet" crossorigin href="/versailles-a-cheval/assets/index-Cj4-lDNE.css">
   </head>
   <body>
     <div id="root"></div>
