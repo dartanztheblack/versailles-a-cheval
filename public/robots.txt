@@ -1,0 +1,42 @@
+# Robots.txt pour Versailles à Cheval
+# Optimisé pour les moteurs de recherche et les IA
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://versailles-a-cheval.fr/sitemap.xml
+
+# Interdiction des pages admin
+Disallow: /admin
+Disallow: /login
+
+# Autorisation explicite des pages importantes
+Allow: /blog
+Allow: /reservation
+Allow: /blog/
+
+# Crawl-delay pour éviter la surcharge
+Crawl-delay: 1
+
+# Spécifique pour Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Spécifique pour Bing
+User-agent: Bingbot
+Allow: /
+
+# Spécifique pour les IA (si elles respectent robots.txt)
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
