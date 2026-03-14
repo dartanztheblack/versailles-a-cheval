@@ -1,108 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Page d'accueil -->
   <url>
     <loc>https://versailles-a-cheval.fr/</loc>
-    <lastmod>2026-03-13</lastmod>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
-    <image:image>
-      <image:loc>https://versailles-a-cheval.fr/og-image.jpg</image:loc>
-      <image:title>Balade à Cheval Versailles - Expérience Unique</image:title>
-      <image:caption>Découvrez les jardins du Château de Versailles à cheval</image:caption>
-    </image:image>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://versailles-a-cheval.fr/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://versailles-a-cheval.fr/?lang=en" />
   </url>
 
-  <!-- Réservation -->
   <url>
     <loc>https://versailles-a-cheval.fr/reservation</loc>
-    <lastmod>2026-03-13</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Blog -->
   <url>
     <loc>https://versailles-a-cheval.fr/blog</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
   </url>
 
-  <!-- Articles de blog SEO -->
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/balade-cheval-versailles-guide-complet</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://versailles-a-cheval.fr/login</loc>
+    <priority>0.3</priority>
   </url>
 
+  <!-- Articles SEO principaux -->
+  <url>
+    <loc>https://versailles-a-cheval.fr/blog/balade-dans-chateau-versailles</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://versailles-a-cheval.fr/blog/vivre-comme-princesse-versailles</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://versailles-a-cheval.fr/blog/demande-mariage-versailles-cheval</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://versailles-a-cheval.fr/blog/meilleure-activite-paris-versailles-cheval</loc>
+    <priority>0.9</priority>
+  </url>
   <url>
     <loc>https://versailles-a-cheval.fr/blog/meilleure-balade-cheval-ile-de-france</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
-
   <url>
     <loc>https://versailles-a-cheval.fr/blog/prix-balade-cheval-versailles</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/centre-equestre-versailles</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://versailles-a-cheval.fr/blog/evjf-versailles-cheval</loc>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/promenade-cheval-chateau</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://versailles-a-cheval.fr/blog/activite-insolite-paris</loc>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/activite-insolite-paris-balade-cheval</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://versailles-a-cheval.fr/blog/choses-immanquables-paris-guide</loc>
+    <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/cheval-jardins-versailles-histoire</loc>
-    <lastmod>2026-03-13</lastmod>
+    <loc>https://versailles-a-cheval.fr/blog/balade-cheval-debutants</loc>
     <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://versailles-a-cheval.fr/blog/debutant-balade-cheval-conseils</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://versailles-a-cheval.fr/blog/weekend-cheval-paris-versailles</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://versailles-a-cheval.fr/blog/idee-sortie-famille-versailles-cheval</loc>
-    <lastmod>2026-03-13</lastmod>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
   </url>
 
 </urlset>

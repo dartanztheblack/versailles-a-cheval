@@ -66,6 +66,15 @@ export function Login() {
       const user = await loginUser(loginEmail, loginPassword);
 
       if (user) {
+        // Vérifier si l'email est vérifié (sauf pour l'admin)
+        if (!user.emailVerified && loginEmail !== "parisdreamhunt@gmail.com") {
+          setError(isEnglish 
+            ? "Please verify your email before signing in. Check your inbox." 
+            : "Veuillez vérifier votre email avant de vous connecter. Vérifiez votre boîte de réception.");
+          setIsLoading(false);
+          return;
+        }
+        
         if (loginEmail === "parisdreamhunt@gmail.com") {
           navigate("/admin");
         } else {

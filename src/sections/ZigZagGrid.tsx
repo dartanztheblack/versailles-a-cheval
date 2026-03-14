@@ -104,14 +104,14 @@ const ZigZagGrid = () => {
           >
             {/* Image */}
             <div
-              className={`relative aspect-[4/3] overflow-hidden rounded-2xl ${
+              className={`relative aspect-[4/3] overflow-hidden rounded-3xl ${
                 item.reverse ? 'lg:order-2' : 'lg:order-1'
               }`}
             >
               <img
                 src={item.image}
                 alt={item.imageAlt}
-                className="zigzag-image w-full h-full object-cover"
+                className="zigzag-image w-full h-full object-cover rounded-3xl"
                 style={{ willChange: 'transform, opacity' }}
               />
             </div>

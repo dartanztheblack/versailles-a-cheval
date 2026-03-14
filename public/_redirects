@@ -1,0 +1,4 @@
+# Redirections pour Vercel - SPA React
+# Toutes les routes redirigent vers index.html pour le client-side routing
+
+/*    /index.html   200
