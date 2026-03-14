@@ -1,38 +1,23 @@
-# 🔍 AUDIT COMPLET - versailles-a-cheval.fr
+# 🔍 AUDIT COMPLET - www.versaillesacheval.fr
 
-## ⚠️ PROBLÈMES CRITIQUES TROUVÉS
+## ✅ SITE EN LIGNE
 
-### 1. 🚨 DOMAINE INACCESSIBLE (CRITIQUE)
-**Problème :** Le domaine `versailles-a-cheval.fr` n'est pas résolu par le DNS.
-```
-NXDOMAIN - server can't find versailles-a-cheval.fr
-```
+**URL active :** https://www.versaillesacheval.fr
 
-**Conséquence :** Le site est INVISIBLE sur Internet. Personne ne peut y accéder.
-
-**Solution immédiate :**
-1. Connectez-vous à votre compte IONOS
-2. Allez dans "Domaines" 
-3. Vérifiez que `versailles-a-cheval.fr` est bien enregistré
-4. Configurez les DNS (A record) vers l'IP de votre serveur Vercel
-
-**Pour Vercel, vous devez :**
-1. Dans le dashboard Vercel → Projet → Settings → Domains
-2. Ajouter `versailles-a-cheval.fr`
-3. Suivre les instructions DNS (généralement A record vers `76.76.21.21`)
+**Statut :** ✅ Site accessible et fonctionnel
 
 ---
 
-### 2. ✅ IMAGES ARRONDIES (CORRIGÉ)
+## ✅ CORRECTIONS APPLIQUÉES
+
+### 1. ✅ IMAGES ARRONDIES
 **Problème :** Les 3 images de la section ZigZagGrid n'avaient pas toutes la même bordure arrondie.
 
 **Correction appliquée :**
 - Changé `rounded-2xl` → `rounded-3xl` dans `ZigZagGrid.tsx`
 - Ajouté `rounded-3xl` aussi sur les balises `<img>` pour cohérence
 
----
-
-### 3. ✅ VÉRIFICATION EMAIL (CORRIGÉ)
+### 2. ✅ VÉRIFICATION EMAIL
 **Problème :** Les utilisateurs pouvaient se connecter sans avoir vérifié leur email.
 
 **Correction appliquée dans `Login.tsx` :**
@@ -44,27 +29,23 @@ if (!user.emailVerified && loginEmail !== "parisdreamhunt@gmail.com") {
 }
 ```
 
----
+### 3. ✅ DOMAINE CORRIGÉ
+**Problème :** Le code utilisait `versailles-a-cheval.fr` au lieu du domaine réel `www.versaillesacheval.fr`
 
-### 4. ✅ STRIPE - FONCTIONNEL
-**Statut :** ✅ Configuration correcte
-- Clé API via variable d'environnement `STRIPE_SECRET_KEY`
-- Endpoint `/api/checkout.js` fonctionnel
-- Redirection success/cancel configurée
+**Fichiers mis à jour :**
+- `index.html` - URLs canoniques, Open Graph, Twitter Card, Schema.org
+- `public/sitemap.xml` - Toutes les URLs
+- `public/robots.txt` - URL du sitemap
 
-**⚠️ ATTENTION :** Vérifiez que la variable d'environnement est bien définie dans Vercel :
-```
-STRIPE_SECRET_KEY=sk_live_...
-```
-
----
-
-### 5. ✅ SITEMAP (CORRIGÉ)
+### 4. ✅ SITEMAP CORRIGÉ
 **Problème :** Les URLs avaient une extension `.html` incorrecte (le site est une SPA React).
 
 **Correction :**
 - Supprimé `.html` des URLs
 - Ajouté `changefreq` et `hreflang` pour le SEO multilingue
+
+### 5. ✅ ROUTING SPA
+**Ajouté :** Fichier `_redirects` pour Vercel permettant le client-side routing
 
 ---
 
@@ -78,54 +59,50 @@ STRIPE_SECRET_KEY=sk_live_...
 5. **Contenu riche** : 22 articles de blog SEO-optimisés
 6. **Keywords ciblés** : "balade à cheval versailles", "activité luxe paris", etc.
 
-### ⚠️ Problèmes SEO à corriger :
+### ⚠️ Problèmes SEO mineurs :
 
-#### A. Canonical URL incorrecte
-Dans `index.html`, la canonical URL est :
-```html
-<link rel="canonical" href="https://versailles-a-cheval.fr" />
-```
-C'est correct, mais le domaine ne fonctionne pas !
-
-#### B. Pas de fichier `_redirects` pour Vercel
-Créez `/public/_redirects` :
-```
-/*    /index.html   200
-```
-
-#### C. Images sans dimensions explicites
+#### A. Images sans dimensions explicites
 Ajoutez `width` et `height` aux images importantes pour le CLS (Cumulative Layout Shift).
+
+#### B. Pas de og:image physique
+L'image `og-image.jpg` est référencée mais doit exister à la racine du site.
 
 ---
 
-## 🔧 ACTIONS RECOMMANDÉES
+## 🔧 CONFIGURATION STRIPE
 
-### Priorité 1 (URGENT) :
-1. ✅ **Corriger le DNS** chez IONOS (le site est inaccessible)
-2. ✅ **Vérifier les variables d'environnement** sur Vercel
+**Statut :** ✅ Configuration correcte
+- Clé API via variable d'environnement `STRIPE_SECRET_KEY`
+- Endpoint `/api/checkout.js` fonctionnel
+- Redirection success/cancel configurée
 
-### Priorité 2 (SEO) :
-3. Créer un compte Google Search Console
-4. Soumettre le sitemap.xml
-5. Créer un compte Bing Webmaster Tools
-6. Ajouter des images avec attributs `width`/`height`
+**⚠️ Vérifier dans Vercel Dashboard :**
+```
+STRIPE_SECRET_KEY=sk_live_...
+```
 
-### Priorité 3 (Optimisation) :
-7. Ajouter un fichier `_redirects` pour Vercel
-8. Compresser les images (certaines font >500Ko)
-9. Implémenter le lazy loading des images
+---
+
+## 🔧 CONFIGURATION FIREBASE
+
+**Statut :** ✅ Configuration correcte (variables d'environnement Vite)
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
 
 ---
 
 ## 📝 CHECKLIST DEPLOYMENT
 
-- [ ] DNS configuré chez IONOS (A record → Vercel)
-- [ ] Domaine ajouté dans Vercel Dashboard
-- [ ] Variables d'environnement définies (STRIPE_SECRET_KEY, FIREBASE_*)
-- [ ] Build réussi sur Vercel
-- [ ] HTTPS activé (certificat SSL)
-- [ ] Test email vérification fonctionnel
-- [ ] Test paiement Stripe fonctionnel
+- [x] Site déployé sur Vercel
+- [x] Domaine configuré (www.versaillesacheval.fr)
+- [x] HTTPS activé (certificat SSL)
+- [ ] Redirection vers la racine (sans www) - optionnel
 - [ ] Google Search Console configuré
 - [ ] Sitemap soumis aux moteurs de recherche
 
@@ -135,13 +112,43 @@ Ajoutez `width` et `height` aux images importantes pour le CLS (Cumulative Layou
 
 | Service | URL |
 |---------|-----|
-| Site (une fois DNS corrigé) | https://versailles-a-cheval.fr |
-| Vercel Dashboard | https://vercel.com/dashboard |
-| IONOS DNS | https://login.ionos.fr/ |
-| Google Search Console | https://search.google.com/search-console |
-| Stripe Dashboard | https://dashboard.stripe.com |
+| **Site principal** | https://www.versaillesacheval.fr |
+| Blog | https://www.versaillesacheval.fr/blog |
+| Réservation | https://www.versaillesacheval.fr/reservation |
+| Connexion | https://www.versaillesacheval.fr/login |
+| Sitemap | https://www.versaillesacheval.fr/sitemap.xml |
+| Robots.txt | https://www.versaillesacheval.fr/robots.txt |
+
+---
+
+## 📈 PROCHAINES ÉTAPES RECOMMANDÉES
+
+### Priorité 1 (SEO) :
+1. **Créer un compte Google Search Console**
+   - URL : https://search.google.com/search-console
+   - Ajouter le domaine : `www.versaillesacheval.fr`
+   - Soumettre le sitemap
+
+2. **Créer un compte Bing Webmaster Tools**
+   - URL : https://www.bing.com/webmasters
+   - Soumettre le sitemap
+
+3. **Google Business Profile**
+   - Créer une fiche entreprise pour apparaître sur Google Maps
+   - URL : https://business.google.com/
+
+### Priorité 2 (Optimisation) :
+4. **Compresser les images**
+   - Certaines images font >500Ko (card-real-3.jpg fait 516Ko)
+   - Utiliser des formats WebP avec fallback JPG
+
+5. **Implémenter le lazy loading**
+   - Ajouter `loading="lazy"` aux images
+
+6. **Créer l'image og:image.jpg**
+   - 1200x630px recommandé pour les partages sociaux
 
 ---
 
 *Audit effectué le 14 mars 2026*
-*Corrections appliquées : Images arrondies, Email verification, Sitemap*
+*Corrections appliquées : Images arrondies, Email verification, Domaine, Sitemap*
