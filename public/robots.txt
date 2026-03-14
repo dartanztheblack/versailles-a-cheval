@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://versailles-a-cheval.fr/sitemap.xml
+Sitemap: https://www.versaillesacheval.fr/sitemap.xml
 
 # Interdiction des pages admin
 Disallow: /admin

@@ -4,69 +4,69 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://versailles-a-cheval.fr/</loc>
+    <loc>https://www.versaillesacheval.fr/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://versailles-a-cheval.fr/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://versailles-a-cheval.fr/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.versaillesacheval.fr/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.versaillesacheval.fr/?lang=en" />
   </url>
 
   <url>
-    <loc>https://versailles-a-cheval.fr/reservation</loc>
+    <loc>https://www.versaillesacheval.fr/reservation</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
 
   <url>
-    <loc>https://versailles-a-cheval.fr/blog</loc>
+    <loc>https://www.versaillesacheval.fr/blog</loc>
     <priority>0.9</priority>
     <changefreq>daily</changefreq>
   </url>
 
   <url>
-    <loc>https://versailles-a-cheval.fr/login</loc>
+    <loc>https://www.versaillesacheval.fr/login</loc>
     <priority>0.3</priority>
   </url>
 
   <!-- Articles SEO principaux -->
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/balade-dans-chateau-versailles</loc>
+    <loc>https://www.versaillesacheval.fr/blog/balade-dans-chateau-versailles</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/vivre-comme-princesse-versailles</loc>
+    <loc>https://www.versaillesacheval.fr/blog/vivre-comme-princesse-versailles</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/demande-mariage-versailles-cheval</loc>
+    <loc>https://www.versaillesacheval.fr/blog/demande-mariage-versailles-cheval</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/meilleure-activite-paris-versailles-cheval</loc>
+    <loc>https://www.versaillesacheval.fr/blog/meilleure-activite-paris-versailles-cheval</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/meilleure-balade-cheval-ile-de-france</loc>
+    <loc>https://www.versaillesacheval.fr/blog/meilleure-balade-cheval-ile-de-france</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/prix-balade-cheval-versailles</loc>
+    <loc>https://www.versaillesacheval.fr/blog/prix-balade-cheval-versailles</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/evjf-versailles-cheval</loc>
+    <loc>https://www.versaillesacheval.fr/blog/evjf-versailles-cheval</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/activite-insolite-paris</loc>
+    <loc>https://www.versaillesacheval.fr/blog/activite-insolite-paris</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/choses-immanquables-paris-guide</loc>
+    <loc>https://www.versaillesacheval.fr/blog/choses-immanquables-paris-guide</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://versailles-a-cheval.fr/blog/balade-cheval-debutants</loc>
+    <loc>https://www.versaillesacheval.fr/blog/balade-cheval-debutants</loc>
     <priority>0.7</priority>
   </url>
 
