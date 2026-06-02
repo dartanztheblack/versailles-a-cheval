@@ -3,8 +3,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { heroConfig, heroConfigEn } from '../config';
 import { ChevronDown, User, BookOpen } from 'lucide-react';
-import { auth } from '@/lib/firebase';
-import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
+import { supabase, onAuthStateChanged } from '@/lib/supabase/auth';
+import type { User } from '@supabase/supabase-js';
+
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +16,7 @@ const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Get language from URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -23,7 +25,7 @@ const Hero = () => {
   const config = isEnglish ? heroConfigEn : heroConfig;
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged((currentUser) => {
       setUser(currentUser);
     });
     return () => unsubscribe();
@@ -120,13 +122,13 @@ const Hero = () => {
           <span className="hidden sm:inline">{isEnglish ? 'Blog' : 'Blog'}</span>
         </a>
         <a
-          href={user ? (user.email === 'parisdreamhunt@gmail.com' ? '/admin' : '/') : '/login'}
+          href={user ? (user.email === ADMIN_EMAIL ? '/admin' : '/') : '/login'}
           className="flex items-center gap-1 px-3 py-1 text-sm text-kaleo-cream/80 hover:text-kaleo-cream transition-colors"
         >
           <User className="h-4 w-4" />
           <span className="hidden sm:inline">
             {user 
-              ? (user.email === 'parisdreamhunt@gmail.com' 
+              ? (user.email === ADMIN_EMAIL 
                 ? (isEnglish ? 'Admin' : 'Admin') 
                 : (isEnglish ? 'My Account' : 'Mon Compte'))
               : (isEnglish ? 'Sign In' : 'Connexion')

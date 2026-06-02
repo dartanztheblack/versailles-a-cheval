@@ -312,11 +312,11 @@ export const footerConfig: FooterConfig = {
   ],
 };
 
-// Stripe Configuration - Clé publique uniquement (client-side)
+// Stripe Configuration - Clé publique depuis les variables d'environnement
 export const stripeConfig = {
-  publishableKey: "pk_live_51SxmVaHExqpZXBJsxPS8N7FTtUHONh6T6pSUl79UidD8ApvJBwquGPEm6yF0C6A7EjdpaF3cdb7Ku59uETbtFshw00b7HfIHuh",
+  publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "",
   prices: {
-    royal: { id: "price_royal_complete", amount: 49000, name: "L'Expérience Royale Complète" },
+    royal: { id: "royal_complete", amount: 49000, name: "L'Expérience Royale Complète" },
   },
 };
 

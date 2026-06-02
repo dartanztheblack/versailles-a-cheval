@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
+import { supabase } from "@/lib/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,28 +27,29 @@ import {
   Trash2,
 } from "lucide-react";
 
-// Types
+// Types - correspond aux colonnes de la base Supabase
 interface Reservation {
   id: string;
-  customerName: string;
+  customer_name: string;
   email: string;
   date: string;
   participants: number;
-  tourType: string;
-  addOns: string[];
-  totalAmount: number;
+  product_id: string;
+  add_ons: string[];
+  total_amount: number;
   status: "pending" | "confirmed" | "completed" | "cancelled";
-  createdAt: string;
+  stripe_session_id?: string;
+  created_at: string;
 }
 
 interface BlogPost {
   id: string;
   title: string;
-  titleEn: string;
+  title_en: string;
   slug: string;
   excerpt: string;
   published: boolean;
-  createdAt: string;
+  created_at: string;
   views: number;
 }
 
@@ -58,6 +58,7 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("reservations");
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [userEmail, setUserEmail] = useState("");
   const [stats, setStats] = useState({
     totalReservations: 0,
     totalRevenue: 0,
@@ -65,70 +66,48 @@ export function AdminDashboard() {
     totalVisitors: 0,
   });
 
-  // Données de démonstration
+  // Charger les données depuis Supabase
   useEffect(() => {
-    // Simuler des réservations
-    setReservations([
-      {
-        id: "RES-001",
-        customerName: "Marie Dupont",
-        email: "marie.dupont@email.com",
-        date: "2024-12-20",
-        participants: 2,
-        tourType: "L'Expérience Royale Complète",
-        addOns: ["Transport depuis votre hôtel"],
-        totalAmount: 1180,
-        status: "confirmed",
-        createdAt: "2024-12-15",
-      },
-      {
-        id: "RES-002",
-        customerName: "John Smith",
-        email: "john.smith@email.com",
-        date: "2024-12-22",
-        participants: 4,
-        tourType: "L'Expérience Royale Complète",
-        addOns: [],
-        totalAmount: 1960,
-        status: "pending",
-        createdAt: "2024-12-16",
-      },
-    ]);
-
-    // Simuler des articles de blog
-    setBlogPosts([
-      {
-        id: "1",
-        title: "Les 10 activités immanquables à Paris",
-        titleEn: "Top 10 Unmissable Activities in Paris",
-        slug: "activites-immanquables-paris",
-        excerpt: "Découvrez les expériences incontournables...",
-        published: true,
-        createdAt: "2024-12-10",
-        views: 1250,
-      },
-      {
-        id: "2",
-        title: "Pourquoi faire une balade à cheval à Versailles",
-        titleEn: "Why Take a Horseback Ride in Versailles",
-        slug: "balade-cheval-versailles",
-        excerpt: "Une expérience royale unique...",
-        published: true,
-        createdAt: "2024-12-12",
-        views: 890,
-      },
-    ]);
-
-    setStats({
-      totalReservations: 2,
-      totalRevenue: 3140,
-      pendingReservations: 1,
-      totalVisitors: 2140,
+    // Récupérer l'email de l'utilisateur connecté
+    supabase.auth.getUser().then(({ data }) => {
+      setUserEmail(data.user?.email || "");
     });
+
+    // Charger les réservations
+    supabase
+      .from("reservations")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (!error && data) {
+          setReservations(data as Reservation[]);
+          // Calculer les stats
+          const total = data.length;
+          const revenue = data.reduce((sum, r) => sum + (r.total_amount || 0), 0);
+          const pending = data.filter((r) => r.status === "pending").length;
+          setStats({
+            totalReservations: total,
+            totalRevenue: revenue / 100, // centimes → euros
+            pendingReservations: pending,
+            totalVisitors: 0, // à connecter plus tard
+          });
+        }
+      });
+
+    // Charger les articles de blog
+    supabase
+      .from("blog_posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (!error && data) {
+          setBlogPosts(data as BlogPost[]);
+        }
+      });
   }, []);
 
   const handleLogout = async () => {
-    await signOut(auth);
+    await supabase.auth.signOut();
     navigate("/");
   };
 
@@ -164,7 +143,7 @@ export function AdminDashboard() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-[#8C7B6B]">
-              {auth.currentUser?.email}
+              {userEmail}
             </span>
             <Button variant="ghost" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" />
@@ -275,13 +254,13 @@ export function AdminDashboard() {
                         <TableCell className="font-medium">{res.id}</TableCell>
                         <TableCell>
                           <div>
-                            <p className="font-medium">{res.customerName}</p>
+                            <p className="font-medium">{res.customer_name}</p>
                             <p className="text-sm text-[#8C7B6B]">{res.email}</p>
                           </div>
                         </TableCell>
                         <TableCell>{res.date}</TableCell>
                         <TableCell>{res.participants}</TableCell>
-                        <TableCell>{res.totalAmount}€</TableCell>
+                        <TableCell>{res.total_amount}€</TableCell>
                         <TableCell>{getStatusBadge(res.status)}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
@@ -327,7 +306,7 @@ export function AdminDashboard() {
                         <TableCell>
                           <div>
                             <p className="font-medium">{post.title}</p>
-                            <p className="text-sm text-[#8C7B6B]">{post.titleEn}</p>
+                            <p className="text-sm text-[#8C7B6B]">{post.title_en}</p>
                           </div>
                         </TableCell>
                         <TableCell>{post.slug}</TableCell>

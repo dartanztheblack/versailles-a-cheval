@@ -1,39 +1,46 @@
 import { loadStripe } from "@stripe/stripe-js";
-import { stripeConfig } from "@/config";
 
-export const stripePromise = loadStripe(stripeConfig.publishableKey);
+const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
-// Crée une session Stripe Checkout via l'API
+if (!STRIPE_PUBLISHABLE_KEY) {
+  console.error("VITE_STRIPE_PUBLISHABLE_KEY is not set. Stripe payments will not work.");
+}
+
+export const stripePromise = STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(STRIPE_PUBLISHABLE_KEY)
+  : null;
+
+// Crée une session Stripe Checkout via l'API (montant validé côté serveur)
 export const createCheckoutSession = async ({
-  amount,
-  tourName,
-  date,
+  productId = "royal_complete",
   participants,
-  lang = 'fr',
+  addOns = [],
+  date,
+  lang = "fr",
 }: {
-  amount: number;
-  tourName: string;
-  date: string;
+  productId?: string;
   participants: number;
+  addOns?: string[];
+  date?: string;
   lang?: string;
 }): Promise<{ sessionId: string; url: string }> => {
-  const response = await fetch('/api/checkout', {
-    method: 'POST',
+  const response = await fetch("/api/checkout", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      amount,
-      tourName,
-      date,
+      productId,
       participants,
+      addOns,
+      date,
       lang,
     }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || 'Failed to create checkout session');
+    throw new Error(error.error || "Failed to create checkout session");
   }
 
   return await response.json();
@@ -41,10 +48,10 @@ export const createCheckoutSession = async ({
 
 // Redirige vers Stripe Checkout
 export const redirectToCheckout = async (params: {
-  amount: number;
-  tourName: string;
-  date: string;
+  productId?: string;
   participants: number;
+  addOns?: string[];
+  date?: string;
   lang?: string;
 }): Promise<void> => {
   const { url } = await createCheckoutSession(params);

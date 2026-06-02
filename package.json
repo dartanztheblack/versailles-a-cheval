@@ -40,6 +40,7 @@
     "@stripe/react-stripe-js": "^5.6.1",
     "@stripe/stripe-js": "^8.9.0",
     "@studio-freight/lenis": "^1.0.42",
+    "@supabase/supabase-js": "^2.57.0",
     "@vercel/node": "^5.6.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

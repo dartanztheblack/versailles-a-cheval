@@ -58,10 +58,10 @@ export function Reservation() {
     
     try {
       await redirectToCheckout({
-        amount: totalAmount,
-        tourName: isEnglish ? tour.titleEn : tour.title,
-        date: format(date, "PPP", { locale: dateLocale }),
+        productId: "royal_complete",
         participants,
+        addOns: selectedAddOns,
+        date: format(date, "PPP", { locale: dateLocale }),
         lang,
       });
       // La redirection se fait ici, on n'atteint pas la suite

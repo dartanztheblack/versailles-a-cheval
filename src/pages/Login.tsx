@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { loginUser, registerUser } from "@/lib/firebase";
+import { loginUser, registerUser } from "@/lib/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, ChevronLeft } from "lucide-react";
+
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "";
 
 export function Login() {
   const navigate = useNavigate();
@@ -67,7 +69,7 @@ export function Login() {
 
       if (user) {
         // Vérifier si l'email est vérifié (sauf pour l'admin)
-        if (!user.emailVerified && loginEmail !== "parisdreamhunt@gmail.com") {
+        if (!user.email_confirmed_at && loginEmail !== ADMIN_EMAIL) {
           setError(isEnglish 
             ? "Please verify your email before signing in. Check your inbox." 
             : "Veuillez vérifier votre email avant de vous connecter. Vérifiez votre boîte de réception.");
@@ -75,7 +77,7 @@ export function Login() {
           return;
         }
         
-        if (loginEmail === "parisdreamhunt@gmail.com") {
+        if (loginEmail === ADMIN_EMAIL) {
           navigate("/admin");
         } else {
           navigate(`/?lang=${lang}`);
@@ -108,7 +110,7 @@ export function Login() {
     }
 
     try {
-      const user = await registerUser(registerEmail, registerPassword);
+      const user = await registerUser(registerEmail, registerPassword, firstName, lastName);
 
       if (user) {
         setSuccessMessage(t.successMsg);

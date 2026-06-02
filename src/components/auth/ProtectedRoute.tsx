@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { onAuthStateChanged, type User } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { supabase, onAuthStateChanged } from "@/lib/supabase/auth";
+import type { User } from "@supabase/supabase-js";
 import { Loader2 } from "lucide-react";
 
 interface ProtectedRouteProps {
@@ -9,15 +9,18 @@ interface ProtectedRouteProps {
   requireAdmin?: boolean;
 }
 
-// Admin emails - vous pouvez ajouter votre email ici
-const ADMIN_EMAILS = ["parisdreamhunt@gmail.com"];
+// Admin emails - configurable via variable d'environnement
+const ADMIN_EMAILS = (import.meta.env.VITE_ADMIN_EMAIL || "")
+  .split(",")
+  .map((e: string) => e.trim())
+  .filter(Boolean);
 
 export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRouteProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged((currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
