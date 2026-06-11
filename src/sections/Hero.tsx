@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { heroConfig, heroConfigEn } from '../config';
-import { ChevronDown, User, BookOpen } from 'lucide-react';
-import { supabase, onAuthStateChanged } from '@/lib/supabase/auth';
+import { ChevronDown, User as UserIcon, BookOpen } from 'lucide-react';
+import { onAuthStateChanged } from '@/lib/supabase/auth';
 import type { User } from '@supabase/supabase-js';
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "";
@@ -125,7 +125,7 @@ const Hero = () => {
           href={user ? (user.email === ADMIN_EMAIL ? '/admin' : '/') : '/login'}
           className="flex items-center gap-1 px-3 py-1 text-sm text-kaleo-cream/80 hover:text-kaleo-cream transition-colors"
         >
-          <User className="h-4 w-4" />
+          <UserIcon className="h-4 w-4" />
           <span className="hidden sm:inline">
             {user 
               ? (user.email === ADMIN_EMAIL 
