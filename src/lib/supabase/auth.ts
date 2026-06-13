@@ -1,4 +1,4 @@
-import { supabase } from "./supabase/client";
+import { supabase } from "./client";
 import type { User } from "@supabase/supabase-js";
 
 // Re-export supabase pour compatibilité avec l'API existante (onAuthStateChanged, etc.)
