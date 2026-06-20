@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Seo } from "@/components/Seo";
 import { supabase } from "@/lib/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -133,6 +134,7 @@ export function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#F3F0EB]">
+      <Seo title="Administration" description="Espace privé." path="/admin" noindex />
       {/* Header */}
       <header className="bg-white border-b border-[#EAE4D9]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">

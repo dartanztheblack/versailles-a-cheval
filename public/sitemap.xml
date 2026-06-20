@@ -6,7 +6,7 @@
   <url>
     <loc>https://www.versaillesacheval.fr/</loc>
     <priority>1.0</priority>
-    <changefreq>daily</changefreq>
+    <changefreq>weekly</changefreq>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.versaillesacheval.fr/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.versaillesacheval.fr/?lang=en" />
   </url>
@@ -19,55 +19,162 @@
 
   <url>
     <loc>https://www.versaillesacheval.fr/blog</loc>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>
 
   <url>
-    <loc>https://www.versaillesacheval.fr/login</loc>
-    <priority>0.3</priority>
+    <loc>https://www.versaillesacheval.fr/blog/activites-immanquables-paris</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
   </url>
 
-  <!-- Articles SEO principaux -->
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/balade-dans-chateau-versailles</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/vivre-comme-princesse-versailles</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/demande-mariage-versailles-cheval</loc>
-    <priority>0.9</priority>
-  </url>
   <url>
     <loc>https://www.versaillesacheval.fr/blog/meilleure-activite-paris-versailles-cheval</loc>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
   </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/meilleure-balade-cheval-ile-de-france</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/prix-balade-cheval-versailles</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/evjf-versailles-cheval</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.versaillesacheval.fr/blog/activite-insolite-paris</loc>
-    <priority>0.8</priority>
-  </url>
+
   <url>
     <loc>https://www.versaillesacheval.fr/blog/choses-immanquables-paris-guide</loc>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
   </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/activite-luxe-paris-art-vivre</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/que-faire-paris-weekend</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/balade-dans-chateau-versailles</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/vivre-comme-princesse-versailles</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/demande-mariage-versailles-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/meilleure-balade-cheval-ile-de-france</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/prix-balade-cheval-versailles</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/evjf-versailles-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/activite-insolite-paris</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
   <url>
     <loc>https://www.versaillesacheval.fr/blog/balade-cheval-debutants</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/sortie-famille-versailles</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/romantisme-versailles-couple</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/visiter-chateau-versailles-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/jardins-chateau-versailles-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/grand-canal-chateau-versailles-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/histoire-chateau-versailles-rois</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/domaine-chateau-versailles-acces-cheval</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/visite-vip-chateau-versailles-sans-foule</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.versaillesacheval.fr/blog/que-voir-chateau-versailles-guide</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-20</lastmod>
   </url>
 
 </urlset>

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, ChevronLeft } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "";
 
@@ -131,6 +132,12 @@ export function Login() {
 
   return (
     <div className="min-h-screen bg-[#F3F0EB] flex items-center justify-center p-6">
+      <Seo
+        title="Connexion | Versailles à Cheval"
+        description="Connexion à votre espace Versailles à Cheval."
+        path="/login"
+        noindex
+      />
       <div className="w-full max-w-md">
         <Button
           variant="ghost"

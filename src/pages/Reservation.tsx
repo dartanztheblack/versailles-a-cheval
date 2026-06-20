@@ -15,6 +15,7 @@ import { Calendar as CalendarIcon, ChevronLeft, Loader2, Check } from "lucide-re
 import { cardStackConfig, addOnOptions } from "@/config";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Seo } from "@/components/Seo";
 
 export function Reservation() {
   const [searchParams] = useSearchParams();
@@ -24,7 +25,7 @@ export function Reservation() {
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
   
-  const tour = cardStackConfig.cards.find((c) => c.id === Number(tourId));
+  const tour = cardStackConfig.cards.find((c) => c.id === Number(tourId)) ?? cardStackConfig.cards[0];
   
   const [step] = useState(success ? 3 : 1);
   const [date, setDate] = useState<Date>();
@@ -121,6 +122,11 @@ export function Reservation() {
 
   return (
     <div className="min-h-screen bg-[#F3F0EB]">
+      <Seo
+        title={isEnglish ? "Book Your Horseback Ride at Versailles | Versailles à Cheval" : "Réservez votre balade à cheval à Versailles | Versailles à Cheval"}
+        description={isEnglish ? tour.descriptionEn : tour.description}
+        path="/reservation"
+      />
       {/* Header */}
       <header className="bg-white border-b border-[#EAE4D9]">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -128,8 +134,8 @@ export function Reservation() {
             {isEnglish ? "Versailles Horse Riding" : "Versailles à Cheval"}
           </a>
           <div className="flex items-center gap-4">
-            <a 
-              href={`/reservation?tour=${tourId}&lang=${isEnglish ? 'fr' : 'en'}`}
+            <a
+              href={`/reservation?tour=${tour.id}&lang=${isEnglish ? 'fr' : 'en'}`}
               className="text-sm text-[#8C7B6B] hover:text-[#1C1C1C]"
             >
               {isEnglish ? 'FR' : 'EN'}
