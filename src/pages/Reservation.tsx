@@ -42,23 +42,25 @@ export function Reservation() {
       if (count <= 6) return 350;
       return 400;
     }
-    if (addOnId === "chateau_visit") {
-      return count <= 1 ? 120 : 240;
-    }
+    if (addOnId === "chateau_visit") return count <= 1 ? 120 : 240;
     const addOn = addOnOptions.find(a => a.id === addOnId);
     return (addOn?.price || 0) * count;
   };
 
-  const getAddOnLabel = (addOnId: string, count: number, english: boolean): string => {
+  const getAddOnPriceLabel = (addOnId: string, count: number, english: boolean): string => {
     if (addOnId === "transport") {
-      return `${getAddOnPrice(addOnId, count)}€ ${english ? "/ booking" : "/ résa."}`;
+      const price = getAddOnPrice(addOnId, count);
+      if (count <= 3) return `${price}€ ${english ? "/ booking" : "/ résa."}`;
+      if (count <= 6) return `${price}€ ${english ? "/ booking · 7+ people: 400€" : "/ résa. · 7+ pers. : 400€"}`;
+      return `${price}€ ${english ? "/ booking" : "/ résa."}`;
     }
     if (addOnId === "chateau_visit") {
       const price = getAddOnPrice(addOnId, count);
-      return `${price}€ ${english ? "total" : "total"}`;
+      if (count <= 1) return `${price}€ ${english ? "total" : "total"}`;
+      return `${price}€ ${english ? "total (capped)" : "total (plafonné)"}`;
     }
     const addOn = addOnOptions.find(a => a.id === addOnId);
-    return `+${addOn?.price || 0}€ ${english ? "/ person" : "/ pers."}`;
+    return `${addOn?.price || 0}€ ${english ? "/ person" : "/ pers."}`;
   };
 
   const baseAmount = (tour?.basePrice || 490) * participants;
@@ -292,15 +294,16 @@ export function Reservation() {
                     >
                       <Checkbox
                         checked={selectedAddOns.includes(addOn.id)}
+                        onClick={(e) => e.stopPropagation()}
                         onCheckedChange={() => toggleAddOn(addOn.id)}
                       />
                       <div className="flex-1">
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-start gap-2">
                           <p className="font-medium text-[#1C1C1C]">
                             {isEnglish ? addOn.nameEn : addOn.name}
                           </p>
-                          <p className="text-[#8C7B6B] font-medium">
-                            +{getAddOnLabel(addOn.id, participants, isEnglish)}
+                          <p className="text-[#8C7B6B] font-medium whitespace-nowrap">
+                            +{getAddOnPriceLabel(addOn.id, participants, isEnglish)}
                           </p>
                         </div>
                         <p className="text-sm text-[#8C7B6B] mt-1">
