@@ -49,14 +49,14 @@ export interface NarrativeTextConfig {
 
 export const narrativeTextConfig: NarrativeTextConfig = {
   line1: "Une expérience royale inoubliable",
-  line2: "Visite privée du Château & Balade à cheval",
-  line3: "Vivez une journée d'exception à la découverte de Versailles. Commencez par une visite privée de 1h30 du Château avec un guide expert, puis enfourchez votre monture pour une balade de 2 heures à travers les jardins royaux, le Grand Canal et les bosquets cachés. Une expérience unique qui combine histoire, élégance et aventure.",
+  line2: "Balade à cheval dans les jardins royaux",
+  line3: "Vivez une journée d'exception à Versailles. Enfourchez votre monture pour une balade de 2 heures à travers les jardins royaux, le Grand Canal et les bosquets cachés. Tickets d'accès au Château inclus. En option : visite guidée privée du Château et déjeuner gastronomique signé Alain Ducasse.",
 };
 
 export const narrativeTextConfigEn: NarrativeTextConfig = {
   line1: "An unforgettable royal experience",
-  line2: "Private Château Visit & Horseback Ride",
-  line3: "Live an exceptional day discovering Versailles. Start with a 1.5-hour private guided visit of the Palace with an expert guide, then mount your noble steed for a 2-hour ride through the Royal Gardens, Grand Canal, and hidden groves. A unique experience combining history, elegance, and adventure.",
+  line2: "Horseback Ride in the Royal Gardens",
+  line3: "Live an exceptional day at Versailles. Mount your noble steed for a 2-hour ride through the Royal Gardens, Grand Canal, and hidden groves. Château access tickets included. Optional: private guided Château tour and gastronomic lunch by Chef Alain Ducasse.",
 };
 
 // ZigZag Grid Section
@@ -158,7 +158,7 @@ export const breathSectionConfig: BreathSectionConfig = {
   backgroundAlt: "Cavalier au bord du Grand Canal de Versailles",
   title: "Versailles",
   subtitle: "COMME VOUS NE L'AVEZ JAMAIS VU",
-  description: "Cette expérience soigneusement conçue offre l'équilibre parfait entre découverte historique et aventure immersive. Votre journée commence par une visite privée du Château de Versailles, puis la magie opère lorsque vous enfourchez votre cheval pour explorer les jardins royaux. Le meilleur moyen d'apprécier l'échelle et la tranquillité de ce domaine historique.",
+  description: "La magie opère lorsque vous enfourchez votre cheval pour explorer les jardins royaux. Tickets d'accès au Château inclus. Pour une journée complète, optez pour la visite guidée privée du Château et le déjeuner gastronomique Alain Ducasse. Le meilleur moyen d'apprécier l'échelle et la tranquillité de ce domaine historique.",
 };
 
 export const breathSectionConfigEn: BreathSectionConfig = {
@@ -166,7 +166,7 @@ export const breathSectionConfigEn: BreathSectionConfig = {
   backgroundAlt: "Rider by the Grand Canal of Versailles",
   title: "Versailles",
   subtitle: "LIKE YOU'VE NEVER SEEN IT",
-  description: "This carefully curated experience offers the perfect balance between historical discovery and immersive adventure. Your day begins with a private visit of the Palace of Versailles, then the magic happens as you mount your horse to explore the Royal Gardens. The ultimate way to appreciate the scale and tranquility of this historical estate.",
+  description: "The magic happens as you mount your horse to explore the Royal Gardens. Château access tickets included. For a full day, add the private guided Château tour and the Alain Ducasse gastronomic lunch. The ultimate way to appreciate the scale and tranquility of this historical estate.",
 };
 
 // Add-on Options
@@ -181,12 +181,28 @@ export interface AddOnOption {
 
 export const addOnOptions: AddOnOption[] = [
   {
+    id: "chateau_visit",
+    name: "Visite guidée du Château",
+    nameEn: "Guided Château Tour",
+    description: "1h30 de visite privée du Château avec un guide expert. 120€ pour 1 personne, 240€ pour 2 personnes et plus.",
+    descriptionEn: "1.5-hour private Château visit with an expert guide. €120 for 1 person, €240 for 2 or more.",
+    price: 120,
+  },
+  {
+    id: "lunch",
+    name: "Déjeuner gastronomique Chef Alain Ducasse",
+    nameEn: "Gastronomic Lunch by Chef Alain Ducasse",
+    description: "Un déjeuner exclusif signé par le Chef étoilé Alain Ducasse : l'ultime gastronomie française. Entrée, plat, dessert et boisson inclus.",
+    descriptionEn: "An exclusive lunch by starred Chef Alain Ducasse: the ultimate French gastronomy. Starter, main course, dessert and drink included.",
+    price: 200,
+  },
+  {
     id: "transport",
     name: "Transport depuis votre hôtel",
     nameEn: "Transport from your hotel",
-    description: "Transport privé de luxe depuis et vers votre hébergement à Paris",
-    descriptionEn: "Private luxury transportation to and from your Paris accommodation",
-    price: 100,
+    description: "Transport privé de luxe depuis et vers votre hébergement à Paris. 200€ jusqu'à 3 pers. · 350€ de 4 à 6 pers. · 400€ à partir de 7 pers.",
+    descriptionEn: "Private luxury transportation to and from your Paris accommodation. €200 up to 3 people · €350 for 4–6 people · €400 for 7 or more.",
+    price: 200,
   },
 ];
 
@@ -222,8 +238,8 @@ export const cardStackConfig: CardStackConfig = {
       image: "/card-real-1.jpg",
       title: "L'Expérience Royale Complète",
       titleEn: "The Complete Royal Experience",
-      description: "1h30 de visite privée du Château + 2h de balade à cheval dans les jardins. À partir de 490€ par personne.",
-      descriptionEn: "1.5-hour private Château visit + 2-hour horseback ride in the gardens. From €490 per person.",
+      description: "2h de balade à cheval dans les jardins royaux. Tickets d'accès au Château inclus. À partir de 490€ par personne.",
+      descriptionEn: "2-hour horseback ride in the Royal Gardens. Château access tickets included. From €490 per person.",
       rotation: -2,
       priceId: "price_royal_complete",
       basePrice: 490,

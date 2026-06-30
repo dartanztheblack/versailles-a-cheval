@@ -36,10 +36,34 @@ export function Reservation() {
 
   const dateLocale = isEnglish ? enUS : fr;
 
+  const getAddOnPrice = (addOnId: string, count: number): number => {
+    if (addOnId === "transport") {
+      if (count <= 3) return 200;
+      if (count <= 6) return 350;
+      return 400;
+    }
+    if (addOnId === "chateau_visit") {
+      return count <= 1 ? 120 : 240;
+    }
+    const addOn = addOnOptions.find(a => a.id === addOnId);
+    return (addOn?.price || 0) * count;
+  };
+
+  const getAddOnLabel = (addOnId: string, count: number, english: boolean): string => {
+    if (addOnId === "transport") {
+      return `${getAddOnPrice(addOnId, count)}€ ${english ? "/ booking" : "/ résa."}`;
+    }
+    if (addOnId === "chateau_visit") {
+      const price = getAddOnPrice(addOnId, count);
+      return `${price}€ ${english ? "total" : "total"}`;
+    }
+    const addOn = addOnOptions.find(a => a.id === addOnId);
+    return `+${addOn?.price || 0}€ ${english ? "/ person" : "/ pers."}`;
+  };
+
   const baseAmount = (tour?.basePrice || 490) * participants;
   const addOnsAmount = selectedAddOns.reduce((total, addOnId) => {
-    const addOn = addOnOptions.find(a => a.id === addOnId);
-    return total + (addOn?.price || 0) * participants;
+    return total + getAddOnPrice(addOnId, participants);
   }, 0);
   const totalAmount = baseAmount + addOnsAmount;
 
@@ -276,7 +300,7 @@ export function Reservation() {
                             {isEnglish ? addOn.nameEn : addOn.name}
                           </p>
                           <p className="text-[#8C7B6B] font-medium">
-                            +{addOn.price}€ {isEnglish ? '/ person' : '/ pers.'}
+                            +{getAddOnLabel(addOn.id, participants, isEnglish)}
                           </p>
                         </div>
                         <p className="text-sm text-[#8C7B6B] mt-1">
