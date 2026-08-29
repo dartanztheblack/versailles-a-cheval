@@ -27,7 +27,7 @@ export function Reservation() {
   
   const tour = cardStackConfig.cards.find((c) => c.id === Number(tourId)) ?? cardStackConfig.cards[0];
   
-  const [step] = useState(success ? 3 : 1);
+  const [step, setStep] = useState(success ? 3 : 1);
   const [date, setDate] = useState<Date>();
   const [participants, setParticipants] = useState(2);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
@@ -38,9 +38,7 @@ export function Reservation() {
 
   const getAddOnPrice = (addOnId: string, count: number): number => {
     if (addOnId === "transport") {
-      if (count <= 3) return 200;
-      if (count <= 6) return 350;
-      return 400;
+      return count <= 3 ? 200 : 300;
     }
     if (addOnId === "chateau_visit") return count <= 1 ? 120 : 240;
     const addOn = addOnOptions.find(a => a.id === addOnId);
@@ -50,8 +48,6 @@ export function Reservation() {
   const getAddOnPriceLabel = (addOnId: string, count: number, english: boolean): string => {
     if (addOnId === "transport") {
       const price = getAddOnPrice(addOnId, count);
-      if (count <= 3) return `${price}€ ${english ? "/ booking" : "/ résa."}`;
-      if (count <= 6) return `${price}€ ${english ? "/ booking · 7+ people: 400€" : "/ résa. · 7+ pers. : 400€"}`;
       return `${price}€ ${english ? "/ booking" : "/ résa."}`;
     }
     if (addOnId === "chateau_visit") {
@@ -125,9 +121,12 @@ export function Reservation() {
     options: isEnglish ? "Options" : "Options",
     totalPaid: isEnglish ? "Total paid" : "Total payé",
     backHome: isEnglish ? "Back to home" : "Retour à l'accueil",
-    paymentCanceled: isEnglish 
-      ? "Payment was canceled. You can try again." 
+    paymentCanceled: isEnglish
+      ? "Payment was canceled. You can try again."
       : "Le paiement a été annulé. Vous pouvez réessayer.",
+    continueToOptions: isEnglish ? "Continue" : "Continuer",
+    optionsTitle: isEnglish ? "Customize your experience" : "Personnalisez votre expérience",
+    optionsSubtitle: isEnglish ? "Optional add-ons to enhance your day" : "Options facultatives pour enrichir votre journée",
   };
 
   if (!tour) {
@@ -204,7 +203,7 @@ export function Reservation() {
           </div>
         )}
 
-        {/* Step 1: Date, Participants & Options */}
+        {/* Step 1: Date & Participants */}
         {step === 1 && (
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <h1 className="text-2xl font-serif text-[#1C1C1C] mb-2">
@@ -244,6 +243,9 @@ export function Reservation() {
                       onSelect={setDate}
                       disabled={(date) => date < new Date()}
                       initialFocus
+                      classNames={{
+                        caption: "flex justify-center pt-1 relative items-center px-10",
+                      }}
                     />
                   </PopoverContent>
                 </Popover>
@@ -275,75 +277,106 @@ export function Reservation() {
                 </div>
               </div>
 
-              {/* Add-ons */}
-              <div>
-                <Label className="text-[#1C1C1C] mb-3 block">
-                  {t.addOns}
-                </Label>
-                <div className="space-y-3">
-                  {addOnOptions.map((addOn) => (
-                    <div
-                      key={addOn.id}
-                      className={cn(
-                        "flex items-start space-x-3 p-4 border rounded-lg cursor-pointer transition-colors",
-                        selectedAddOns.includes(addOn.id)
-                          ? "border-[#8C7B6B] bg-[#F3F0EB]"
-                          : "border-[#EAE4D9] hover:border-[#8C7B6B]"
-                      )}
-                      onClick={() => toggleAddOn(addOn.id)}
-                    >
-                      <Checkbox
-                        checked={selectedAddOns.includes(addOn.id)}
-                        onClick={(e) => e.stopPropagation()}
-                        onCheckedChange={() => toggleAddOn(addOn.id)}
-                      />
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start gap-2">
-                          <p className="font-medium text-[#1C1C1C]">
-                            {isEnglish ? addOn.nameEn : addOn.name}
-                          </p>
-                          <p className="text-[#8C7B6B] font-medium whitespace-nowrap">
-                            +{getAddOnPriceLabel(addOn.id, participants, isEnglish)}
-                          </p>
-                        </div>
-                        <p className="text-sm text-[#8C7B6B] mt-1">
-                          {isEnglish ? addOn.descriptionEn : addOn.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+              {/* Price */}
+              <div className="border-t border-[#EAE4D9] pt-4">
+                <div className="flex justify-between items-center text-[#8C7B6B]">
+                  <span>{t.pricePerPerson}</span>
+                  <span className="font-medium text-[#1C1C1C]">{tour.basePrice}€ × {participants} = {baseAmount}€</span>
                 </div>
               </div>
-
-              {/* Price Summary */}
-              <div className="border-t border-[#EAE4D9] pt-6 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-[#8C7B6B]">{t.pricePerPerson}</span>
-                  <span className="font-medium">{tour.basePrice}€</span>
-                </div>
-                {selectedAddOns.length > 0 && (
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-[#8C7B6B]">{t.options}</span>
-                    <span className="text-[#8C7B6B]">+{addOnsAmount}€</span>
-                  </div>
-                )}
-                <div className="flex justify-between items-center text-lg font-medium pt-2 border-t border-[#EAE4D9]">
-                  <span>{t.total}</span>
-                  <span className="text-[#8C7B6B]">{totalAmount}€</span>
-                </div>
-              </div>
-
-              {/* Error Message */}
-              {error && (
-                <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
-                  {error}
-                </div>
-              )}
 
               <Button
-                onClick={handleProceedToPayment}
-                disabled={!date || isLoading}
+                onClick={() => setStep(2)}
+                disabled={!date}
                 className="w-full bg-[#8C7B6B] hover:bg-[#6B5D4F] text-white"
+              >
+                {t.continueToOptions}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Options */}
+        {step === 2 && (
+          <div className="bg-white rounded-lg p-8 shadow-sm">
+            <h2 className="text-2xl font-serif text-[#1C1C1C] mb-1">
+              {t.optionsTitle}
+            </h2>
+            <p className="text-sm text-[#8C7B6B] mb-6">
+              {t.optionsSubtitle}
+            </p>
+
+            <div className="space-y-3 mb-6">
+              {addOnOptions.map((addOn) => (
+                <div
+                  key={addOn.id}
+                  className={cn(
+                    "flex items-start space-x-3 p-4 border rounded-lg cursor-pointer transition-colors",
+                    selectedAddOns.includes(addOn.id)
+                      ? "border-[#8C7B6B] bg-[#F3F0EB]"
+                      : "border-[#EAE4D9] hover:border-[#8C7B6B]"
+                  )}
+                  onClick={() => toggleAddOn(addOn.id)}
+                >
+                  <Checkbox
+                    checked={selectedAddOns.includes(addOn.id)}
+                    onClick={(e) => e.stopPropagation()}
+                    onCheckedChange={() => toggleAddOn(addOn.id)}
+                  />
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start gap-2">
+                      <p className="font-medium text-[#1C1C1C]">
+                        {isEnglish ? addOn.nameEn : addOn.name}
+                      </p>
+                      <p className="text-[#8C7B6B] font-medium whitespace-nowrap">
+                        +{getAddOnPriceLabel(addOn.id, participants, isEnglish)}
+                      </p>
+                    </div>
+                    <p className="text-sm text-[#8C7B6B] mt-1">
+                      {isEnglish ? addOn.descriptionEn : addOn.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Price Summary */}
+            <div className="border-t border-[#EAE4D9] pt-4 space-y-2 mb-6">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-[#8C7B6B]">{t.pricePerPerson} × {participants}</span>
+                <span>{baseAmount}€</span>
+              </div>
+              {selectedAddOns.length > 0 && (
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-[#8C7B6B]">{t.options}</span>
+                  <span className="text-[#8C7B6B]">+{addOnsAmount}€</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center text-lg font-medium pt-2 border-t border-[#EAE4D9]">
+                <span>{t.total}</span>
+                <span className="text-[#8C7B6B]">{totalAmount}€</span>
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm mb-4">
+                {error}
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setStep(1)}
+                className="flex-none"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                onClick={handleProceedToPayment}
+                disabled={isLoading}
+                className="flex-1 bg-[#8C7B6B] hover:bg-[#6B5D4F] text-white"
               >
                 {isLoading ? (
                   <>
